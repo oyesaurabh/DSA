@@ -1,0 +1,17 @@
+int getNthFromLast(Node *h, int n)
+{
+       // Your code here
+       if(n==0)return -1;
+       Node *s,*f;
+       s=f=h;
+       while(n--)
+            if(f)
+                f=f->next;
+            else return -1;
+       while(f){
+           s=s->next;
+           f=f->next;
+           
+       }
+       return s->data;
+}

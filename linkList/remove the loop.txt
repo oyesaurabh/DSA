@@ -1,0 +1,28 @@
+void removeLoop(Node* h)
+    {
+        // code here
+        // just remove the loop without losing any nodes
+         Node *s,*f;
+        s=f=h;
+        do{
+            s=s->next;
+            f=f->next;
+            if(f)
+                f=f->next;
+        }while(f!=s && f);
+        //if there will be NO loop
+        if(f==NULL)
+            return;
+        //else
+        s=h;
+        while(s!=f){
+            s=s->next;
+            f=f->next;
+        }
+        Node *t=s;
+        t=t->next;
+        while(t->next != s)
+            t=t->next;
+        t->next=NULL;
+        
+    }

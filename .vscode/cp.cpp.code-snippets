@@ -1,0 +1,16 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define for(i,n) for(int i=0;i<n;i++)
+#define pi (3.14159265359)
+#define endl ("\n")
+typedef long long int lli;
+void fun(){
+    
+}
+int main(){
+  lli t; cin>>t;
+  while(t--){
+   fun();
+  }
+return 0;
+}
