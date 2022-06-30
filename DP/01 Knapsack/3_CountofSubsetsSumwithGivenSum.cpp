@@ -1,4 +1,5 @@
 // https://youtu.be/F7wqWbqYn9g
+// Similar question https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/
 #include<bits/stdc++.h>
 #include<conio.h>
 using namespace std;
