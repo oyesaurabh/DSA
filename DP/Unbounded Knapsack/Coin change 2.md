@@ -59,5 +59,29 @@ public:
 ```
 ## DP
 ```cpp
+class Solution {
+public:
+    int change(int t, vector<int>& a) {
+        int n=a.size();
 
+        int dp[n+1][t+1];
+        for(int i=0;i<=n;i++)
+            for(int j=0;j<=t;j++)
+                if(i==0)      // i==0 means, no element to select... so j=target
+                    dp[i][j]=0;  
+                else if(j==0) // j==0 means target=0 so always true {}
+                    dp[i][j]=1;
+                else
+                    dp[i][j]=-1;
+        
+        for(int i=1;i<=n;i++)
+            for(int j=1;j<=t;j++){
+                if(a[i-1] <= j)
+                    dp[i][j]=( dp[i-1][j] + dp[i][j-a[i-1]] );
+                else
+                    dp[i][j]=dp[i-1][j];
+            }
+        return dp[n][t];
+    }
+};
 ```
