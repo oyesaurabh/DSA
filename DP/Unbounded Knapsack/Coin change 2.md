@@ -67,9 +67,9 @@ public:
         int dp[n+1][t+1];
         for(int i=0;i<=n;i++)
             for(int j=0;j<=t;j++)
-                if(i==0)      // i==0 means, no element to select... so j=target
+                if(i==0)      // i==0 means, no element to select... so dp[i][j]=0
                     dp[i][j]=0;  
-                else if(j==0) // j==0 means target=0 so always true {}
+                else if(j==0) // j==0 means target=0 therefore always true {}....so dp[][]=1
                     dp[i][j]=1;
                 else
                     dp[i][j]=-1;
