@@ -18,9 +18,9 @@ Explanation: there are four ways to make up the amount:
 class Solution {
     int n;
     int solve(vector<int>& a,int t,int size){
-        if(t==0)
+        if(t==0) // target = 0...means we got the answer
             return 1;
-        if(size<0)return 0;
+        if(size<0)return 0; //we tried all the combinations butt couldnt find any answer so return 0
         
         if(a[size] <= t)
             return solve(a,t-a[size],size)+solve(a,t,size-1); //take both
