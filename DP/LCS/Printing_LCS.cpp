@@ -23,7 +23,7 @@ void LCS(string a,string b){
         if(a[i-1] == b[j-1])
             ans+=a[i-1], i--,j--;
         else
-            dp[i-1][j] > dp[i][j-1]?i--:j--;
+            dp[i][j] == dp[i-1][j]?i--:j--;
 
     reverse(ans.begin(), ans.end());
     cout<<ans<<"\n";
