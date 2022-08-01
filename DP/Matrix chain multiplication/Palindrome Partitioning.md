@@ -20,7 +20,59 @@ Output: 1
 Explaination: The substrings after 1
 partitioning are "aa" and "abba".
 ```
-##Solution :: Recursive
+## Solution :: Recursive
+```cpp
+class Solution {
+    bool is_pali(string &s,int i,int j){
+        while(i<j)
+            if(s[i++] != s[j--])return 0;
+        return 1;
+    }
+    int solve(string &s,int i,int j){
+        if(i>=j || is_pali(s,i,j))return 0;
+        
+        int ans=INT_MAX;
+        for(int k=i;k<j;k++){
+            int temp=1+solve(s,i,k)+solve(s,k+1,j);
+            ans=min(ans,temp);
+        }
+        return ans;
+    }
+public:
+    int minCut(string s) {
+        return solve(s,0,s.size()-1);
+    }
+};
 ```
+## Solution :: Memoization
+```cpp
+class Solution {
+    int dp[2000+1][2000+1];
+    bool is_pali(string &s,int i,int j){
+        while(i<j)
+            if(s[i++] != s[j--])return 0;
+        return 1;
+    }
+    int solve(string &s,int i,int j){
+        if(i>=j || is_pali(s,i,j))
+            return 0;
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        int ans=INT_MAX;
+        for(int k=i;k<j;k++){
+            int temp=1+solve(s,i,k)+solve(s,k+1,j);
+            ans=min(ans,temp);
+        }
+        return dp[i][j]=ans;
+    }
+public:
+    int minCut(string s) {
+        memset(dp,-1,sizeof(dp));
+        return solve(s,0,s.size()-1);
+    }
+};
+```
+## Solution :: Optimized Memoization
+```cpp
 
 ```
