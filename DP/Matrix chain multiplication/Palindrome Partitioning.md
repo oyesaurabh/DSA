@@ -74,5 +74,42 @@ public:
 ```
 ## Solution :: Optimized Memoization
 ```cpp
-
+class Solution {
+    int dp[2000+1][2000+1];
+    bool is_pali(string &s,int i,int j){
+        while(i<j)
+            if(s[i++] != s[j--])return 0;
+        return 1;
+    }
+    int solve(string &s,int i,int j){
+        if(i>=j || is_pali(s,i,j))
+            return 0;
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        int ans=INT_MAX;
+        for(int k=i;k<j;k++){
+            
+            int left,right;
+            if(dp[i][k] != -1)
+                left=dp[i][k];
+            else
+                left=solve(s,i,k), dp[i][k]=left;
+            
+            if(dp[k+1][j] != -1)
+                right=dp[k+1][j];
+            else
+                right=solve(s,k+1,j), dp[k+1][j]=right;
+            
+                
+            int temp=1+left+right;
+            ans=min(ans,temp);
+        }
+        return dp[i][j]=ans;
+    }
+public:
+    int minCut(string s) {
+        memset(dp,-1,sizeof(dp));
+        return solve(s,0,s.size()-1);
+    }
+};
 ```
