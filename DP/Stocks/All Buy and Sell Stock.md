@@ -70,8 +70,8 @@ public:
 };
 ```
 ### Solution :: memoization
-Time Complexity: O(N^2)<br>
-Space Complexity: O(N^2) + O(N)<br>
+Time Complexity: O(N\*2)<br>
+Space Complexity: O(N\*2) + O(N)<br>
 ```cpp
     int fun(vector<int>&a, int i, bool canBuy, vector<vector<int>>& dp){
         if(i==a.size())return 0;
@@ -90,8 +90,8 @@ Space Complexity: O(N^2) + O(N)<br>
     }
 ```
 ### Solution :: Tabulation
-Time Complexity: O(N^2)<br>
-Space Complexity: O(N^2)<br>
+Time Complexity: O(N\*2)<br>
+Space Complexity: O(N\*2)<br>
 ```cpp
     int maxProfit(vector<int>& a) {
         int n=a.size();
@@ -107,6 +107,26 @@ Space Complexity: O(N^2)<br>
         return dp[0][1];
     }
 ```
+### Solution :: Tabulation( Space Optimization )
+Time Complexity: O(N\*2)<br>
+Space Complexity: O(1)<br>
+```cpp
+    int maxProfit(vector<int>& a) {
+        int n=a.size();
+        vector<int> next(2,0), curr(2,0);
+        next[0]=next[1]=0;
+        for(int i=n-1;i>=0;i--){
+            for(int buy=0;buy<=1;buy++){
+                if(buy)//       buy so -a[i]
+                    curr[buy]=max( next[0]-a[i], next[1] );
+                else //            selling so +a[i]
+                    curr[buy]=max( next[1]+a[i], next[0]);
+            }
+            next=curr;
+        }
+        return curr[1];
+    }
+```
 # 3. Best Time to Buy and Sell Stock III
 [Link](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
@@ -119,9 +139,132 @@ Output: 6
 Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
 Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
 ```
-### Solution
+### Solution :: Greedy
 Time Complexity: O(N)<br>
 Space Complexity: O(1)<br>
 ```cpp
-
+coming soon
 ```
+### Solution :: Recursion TLE
+Time Complexity: O(2^N)<br>
+Space Complexity: O(N)<br>
+```cpp
+    int fun(vector<int>&a,int i,bool canBuy,int transaction){
+        if(i==a.size() || transaction==0)return 0;
+        
+        if(canBuy)//buying
+            return max(fun(a,i+1,0,transaction)-a[i], fun(a,i+1,1,transaction)-0);
+        else //selling
+            return max(fun(a,i+1,1,transaction-1)+a[i], fun(a,i+1,0,transaction)+0);
+    }
+public:
+    int maxProfit(vector<int>& a) {
+       return fun(a,0,1,2); 
+    }
+```
+### Solution :: Memo
+Time Complexity: O(N\*2\*3)<br>
+Space Complexity: O(N\*2\*3) + O(N)<br>
+```cpp
+class Solution {
+    int fun(vector<int>&a,int i,bool canBuy,int trans,int dp[][2][3]){
+        if(i==a.size() || trans==0)return 0;
+        
+        if(dp[i][canBuy][trans] != -1)return dp[i][canBuy][trans];
+        
+        if(canBuy)//buying
+        return dp[i][canBuy][trans]=max(fun(a,i+1,0,trans,dp)-a[i], fun(a,i+1,1,trans,dp));
+        else //selling
+        return dp[i][canBuy][trans]=max(fun(a,i+1,1,trans-1,dp)+a[i], fun(a,i+1,0,trans,dp));
+    }
+public:
+    int maxProfit(vector<int>& a) {
+        int n=a.size();
+        int dp[n+1][2][3];
+        memset(dp,-1,sizeof(dp));
+        return fun(a,0,1,2,dp); 
+    }
+};
+```
+### Solution :: Tabulation
+Time Complexity: O(N\*2\*3)<br>
+Space Complexity: O(N\*2\*3)<br>
+```cpp
+    int maxProfit(vector<int>& a) {
+        int n=a.size();
+        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));
+        
+        for(int i=n-1;i>=0;i--)
+            for(int j=0;j<=1;j++)
+                for(int k=0;k<=2;k++){
+                    if(k==0)//BaseCase
+                        dp[i][j][k]=0;
+                    else if(j)
+                        dp[i][j][k]=max(dp[i+1][0][k]-a[i], dp[i+1][1][k] );
+                    else
+                        dp[i][j][k]=max(dp[i+1][1][k-1]+a[i], dp[i+1][0][k] );
+                }
+        return dp[0][1][2];
+    }
+};
+```
+### Solution :: Tabulation( space Optimized )
+Time Complexity: O(N\*2\*3)<br>
+Space Complexity: O(1)<br>
+```cpp
+    int maxProfit(vector<int>& a) {
+        int n=a.size();
+        vector<vector<int>> next(2,vector<int>(3,0)), curr(2,vector<int>(3,0));
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<=1;j++)
+                for(int k=0;k<=2;k++){
+                    if(k==0)
+                        curr[j][k]=0;//BaseCase
+                    else if(j)
+                        curr[j][k]=max(next[0][k]-a[i], next[1][k] );
+                    else
+                        curr[j][k]=max(next[1][k-1]+a[i], next[0][k] );
+                }
+            next=curr;
+        }
+        return curr[1][2];
+    }
+```
+# 3. Best Time to Buy and Sell Stock IV
+[Link](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+complete at most k transactions.
+
+***NOTE*** <br>
+same as 3rd one(at most 2 transaction), here we have at most k transaction...
+Example 1:
+```
+Input: k = 2, prices = [2,4,1]
+Output: 2
+Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+```
+### Solution :: Tabulation
+Time Complexity: O(N\*2\*k)<br>
+Space Complexity: O(N\*2\*k)<br>
+```cpp
+    int dp[1001][2][101];
+    int solve(vector<int>&a,int i,int canbuy,int trans){
+        if(trans==0 || i==a.size())return 0;
+        
+        if(dp[i][canbuy][trans] != -1)return dp[i][canbuy][trans];
+        
+        int profit;
+        if(canbuy)//buying
+            profit= max(solve(a,i+1,0,trans)-a[i] , solve(a,i+1,1,trans)-0);
+        else//selling
+            profit= max(solve(a,i+1,1,trans-1)+a[i] , solve(a,i+1,0,trans)+0);
+        
+        return dp[i][canbuy][trans]=profit;
+    }
+public:
+    int maxProfit(int k, vector<int>& a) {
+        memset(dp,-1,sizeof(dp));
+        return solve(a,0,1,k);
+    }
+```
+
