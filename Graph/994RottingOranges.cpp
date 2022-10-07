@@ -8,7 +8,7 @@ public:
         queue<pair<int,int>> q;
         int n=a.size();
         int m=a[0].size();
-        int fresh=0;
+        int fresh=0; 
         for(int i=0;i<n;i++)
             for(int j=0;j<m;j++){
                 if(a[i][j]==2)
