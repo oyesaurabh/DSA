@@ -41,7 +41,7 @@ public:
 };
 int main(){
     //here
-    Solution s;
+    Solution s; 
     vector<vector<int>>a={{2,1,1},{0,1,1},{1,0,1}};
     cout<<s.orangesRotting(a);
     getch();
