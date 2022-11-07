@@ -32,7 +32,7 @@ public:
 };
 ```
 ## DP
-Ans will always contains subarray either from starting or end.<br>
+Product will always contains subarray either from starting or end.<br>
 O(2N) && S(1)
 ```cpp
 class Solution {
