@@ -9,7 +9,7 @@ void BubbleSort(int a[],int n){
                 swap(a[j],a[j+1]);
 }
 int main(){
-    //here 
+    //here
     int n;
     cout<<"N: ";
     cin>>n;
