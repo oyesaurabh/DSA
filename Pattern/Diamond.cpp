@@ -6,24 +6,32 @@ int main()
     int m;
     cin>>m;
     if(m%2==0){
-      cout<<"ERROR: odd number dedo bro...";
+      cout<<"ODD no. please";
       return 0;
     }
-    
-    for(int j=1;j<=m;j++)cout<<"* ";cout<<"\n";
-    
-    int s=1, star=m/2;
-    for(int i=1;i<=m-2;i++){
-      for(int j=1;j<=star;j++)cout<<"* ";
-      for(int j=1;j<=s;j++)cout<<"  ";
-      for(int j=1;j<=star;j++)cout<<"* ";
-      cout<<"\n";
-      
-      if(i<m/2)
-        s+=2,star--;
-      else 
-        s-=2, star++;
+    int space=m/2;
+    int star=1;
+    for(int i=1;i<=m;i++){
+        for(int j=1;j<=space;j++)
+            cout<<"  ";
+        
+        for(int j=1;j<=star;j++)
+            cout<<"* ";
+            // j==1||j==star?cout<<"* ":cout<<"  ";
+        
+        cout<<"\n";
+
+        if(i <= (m/2)){
+            //upper half
+            space--;
+            star += 2;
+        }
+        else{
+            //lower half
+            space++;
+            star -= 2;
+        }
     }
-    
-    for(int j=1;j<=m;j++)cout<<"* ";cout<<"\n";
+
+    return 0;
 }
